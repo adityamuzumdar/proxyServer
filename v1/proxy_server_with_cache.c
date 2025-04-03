@@ -24,38 +24,13 @@
 
 typedef struct cache_element cache_element;
 
-// struct cache_element{
-//     char* data;         //data stores response
-//     int len;          //length of data i.e.. sizeof(data)...
-//     char* url;        //url stores the request
-// 	time_t lru_time_track;    //lru_time_track stores the latest time the element is  accesed
-//     cache_element* next;    //pointer to next element
-// };
-
-typedef struct CacheNode {
-    char *key;
-    char *data;
-    size_t size;
-    time_t timestamp;
-    struct CacheNode *prev;
-    struct CacheNode *next;
-} CacheNode;
-
-typedef struct {
-    CacheNode *head;
-    CacheNode *tail;
-    size_t total_size;
-    pthread_rwlock_t lock;
-} LRUCache;
-
-typedef struct {
-    CacheNode *node;
-    struct HashEntry *next;
-} HashEntry;
-
-LRUCache cache;
-HashEntry *hashTable[HASH_SIZE];
-pthread_mutex_t hashLocks[HASH_SIZE];
+struct cache_element{
+    char* data;         //data stores response
+    int len;          //length of data i.e.. sizeof(data)...
+    char* url;        //url stores the request
+	time_t lru_time_track;    //lru_time_track stores the latest time the element is  accesed
+    cache_element* next;    //pointer to next element
+};
 
 cache_element* find(char* url);
 int add_cache_element(char* data,int size,char* url);
